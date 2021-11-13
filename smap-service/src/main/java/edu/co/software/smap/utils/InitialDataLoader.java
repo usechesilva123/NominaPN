@@ -46,7 +46,7 @@ ApplicationListener<ContextRefreshedEvent> {
 	@Autowired
 	private TipoRepository tipoRepository;
 
-	
+
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Override
@@ -61,19 +61,9 @@ ApplicationListener<ContextRefreshedEvent> {
 		= createPrivilegeIfNotFound("WRITE_PRIVILEGE");
 
 		List<Privilege> adminPrivileges = Arrays.asList(
-				readPrivilege, writePrivilege);        
+				readPrivilege, writePrivilege);
 		createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
 		createRoleIfNotFound("ROLE_CLIENT", Arrays.asList(readPrivilege));
-
-		createEstadoIfNotFound("PENDIENTE");
-		createEstadoIfNotFound("RESUELTO");
-		createEstadoIfNotFound("REVISION");
-		createEstadoIfNotFound("DESCARTADO");
-
-		createTipoIfNotFound("PETICION");
-		createTipoIfNotFound("QUEJA");
-		createTipoIfNotFound("RECLAMO");
-		createTipoIfNotFound("SUGERENCIA");
 
 		Role adminRole = roleRepository.findByName("ROLE_ADMIN");
 		Role clientRole = roleRepository.findByName("ROLE_CLIENT");
