@@ -4,14 +4,14 @@ import java.util.Collection;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "PRIVILEGE")
 public class Privilege {
 
 	public Privilege(String name) {
 		super();
 		this.name = name;
 	}
-	
+
 	public Privilege() {
 		super();
 	}
