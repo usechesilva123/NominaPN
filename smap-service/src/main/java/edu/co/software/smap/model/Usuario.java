@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
+@Entity(name = "USUARIO")
 public class Usuario {
 
 	@Id
@@ -37,12 +37,12 @@ public class Usuario {
 
 	@ManyToMany
 	@JsonIgnore
-	@JoinTable( 
-			name = "users_roles", 
+	@JoinTable(
+			name = "users_roles",
 			joinColumns = @JoinColumn(
-					name = "user_id", referencedColumnName = "id"), 
+					name = "user_id", referencedColumnName = "id"),
 			inverseJoinColumns = @JoinColumn(
-					name = "role_id", referencedColumnName = "id")) 
+					name = "role_id", referencedColumnName = "id"))
 	private Collection<Role> roles;
 
 	public Usuario() {}
