@@ -16,53 +16,36 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-@Entity(name = "USUARIO")
-public class Usuario {
+public class UsuarioRequest {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-
-	@Column(nullable = false)
 	private String nombre_completo;
-	@Column(unique = true, nullable = false)
 	private String documento;
-	@Column(unique = true, nullable = false)
 	private String telefono;
-	@Column(unique = true, nullable = false)
 	private String email;
-	@Column(nullable = false)
 	private String tipo_documento;
-	@Column(nullable = false)
-	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	private boolean enabled;
-
-	@ManyToMany
-	@JsonIgnore
-	@JoinTable(
-			name = "users_roles",
-			joinColumns = @JoinColumn(
-					name = "user_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(
-					name = "role_id", referencedColumnName = "id"))
-	private Collection<Role> roles;
 	
-	@ManyToMany
-	@JsonIgnore
-	@JoinTable(
-			name = "users_empresas",
-			joinColumns = @JoinColumn(
-					name = "user_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(
-					name = "empresa_id", referencedColumnName = "id"))
 	private Collection<Empresa> empresas;
 
-	public Usuario() {}
+	public UsuarioRequest() {}
 
-	public Usuario(String nombre_completo, String documento, String telefono, String email, String tipo_documento,
-			String password, boolean enabled) {
+	/**
+	 * @param id
+	 * @param nombre_completo
+	 * @param documento
+	 * @param telefono
+	 * @param email
+	 * @param tipo_documento
+	 * @param password
+	 * @param enabled
+	 * @param empresas
+	 */
+	public UsuarioRequest(int id, String nombre_completo, String documento, String telefono, String email,
+			String tipo_documento, String password, boolean enabled, Collection<Empresa> empresas) {
 		super();
+		this.id = id;
 		this.nombre_completo = nombre_completo;
 		this.documento = documento;
 		this.telefono = telefono;
@@ -70,6 +53,7 @@ public class Usuario {
 		this.tipo_documento = tipo_documento;
 		this.password = password;
 		this.enabled = enabled;
+		this.empresas = empresas;
 	}
 
 	/**
@@ -185,20 +169,6 @@ public class Usuario {
 	}
 
 	/**
-	 * @return the roles
-	 */
-	public Collection<Role> getRoles() {
-		return roles;
-	}
-
-	/**
-	 * @param roles the roles to set
-	 */
-	public void setRoles(Collection<Role> roles) {
-		this.roles = roles;
-	}
-
-	/**
 	 * @return the empresas
 	 */
 	public Collection<Empresa> getEmpresas() {
@@ -211,8 +181,6 @@ public class Usuario {
 	public void setEmpresas(Collection<Empresa> empresas) {
 		this.empresas = empresas;
 	}
-	
-	
 
-
+	
 }
