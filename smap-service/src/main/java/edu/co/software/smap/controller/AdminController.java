@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.co.software.smap.model.AuthenticationRequest;
 import edu.co.software.smap.model.AuthenticationResponse;
 import edu.co.software.smap.model.Empresa;
+import edu.co.software.smap.model.Usuario;
+import edu.co.software.smap.model.UsuarioRequest;
 import edu.co.software.smap.service.EmpresaService;
+import edu.co.software.smap.service.UsuarioService;
 
 @RestController
 @RequestMapping(value = "/admin")
@@ -31,19 +34,45 @@ public class AdminController {
 	@Autowired
 	private EmpresaService empresaService;
 	
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	@RequestMapping(value = "/empresa", method = RequestMethod.POST)
-	public Empresa save(@RequestBody Empresa empresa) {
+	public Empresa saveEmpresa(@RequestBody Empresa empresa) {
 		return empresaService.save(empresa);
 	}
 	
 	@RequestMapping(value = "/empresa", method = RequestMethod.GET)
-	public List<Empresa> find() {
+	public List<Empresa> findEmpresa() {
 		return empresaService.fetch();
 	}
 	
 	@RequestMapping(value = "/empresa", method = RequestMethod.DELETE)
-	public void delete(@RequestBody Empresa empresa) {
+	public void deleteEmpresa(@RequestBody Empresa empresa) {
 		empresaService.delete(empresa);
+	}
+	
+	@RequestMapping(value = "/usuario/client", method = RequestMethod.POST)
+	public Usuario saveUsuarioCliente(@RequestBody UsuarioRequest usuario) {
+		Usuario user = new Usuario(usuario.getNombre_completo(),usuario.getDocumento(),usuario.getTelefono()
+				, usuario.getEmail(), usuario.getTipo_documento(), usuario.getPassword(), usuario.isEnabled());
+		user.setEmpresas(usuario.getEmpresas());
+		return usuarioService.saveClient(user);
+	}
+	
+	@RequestMapping(value = "/usuario/admin", method = RequestMethod.POST)
+	public Usuario saveUsuarioAdmin(@RequestBody Usuario usuario) {
+		return usuarioService.saveAdmin(usuario);
+	}
+	
+	@RequestMapping(value = "/usuario", method = RequestMethod.GET)
+	public List<Usuario> findUsuario() {
+		return usuarioService.fetch();
+	}
+	
+	@RequestMapping(value = "/usuario", method = RequestMethod.DELETE)
+	public void deleteUsuario(@RequestBody Usuario usuario) {
+		usuarioService.delete(usuario);
 	}
 
 
